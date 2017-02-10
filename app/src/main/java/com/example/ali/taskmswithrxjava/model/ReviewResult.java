@@ -1,4 +1,4 @@
-package com.example.ali.taskmswithrxjava;
+package com.example.ali.taskmswithrxjava.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

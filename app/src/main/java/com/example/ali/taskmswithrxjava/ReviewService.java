@@ -1,5 +1,7 @@
 package com.example.ali.taskmswithrxjava;
 
+import com.example.ali.taskmswithrxjava.model.ReviewGsonResponse;
+
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;

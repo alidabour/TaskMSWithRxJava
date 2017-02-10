@@ -1,4 +1,4 @@
-package com.example.ali.taskmswithrxjava;
+package com.example.ali.taskmswithrxjava.model;
 
 /**
  * Created by Ali on 2/10/2017.

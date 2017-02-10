@@ -1,6 +1,7 @@
-package com.example.ali.taskmswithrxjava;
+package com.example.ali.taskmswithrxjava.controller.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,6 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.ali.taskmswithrxjava.model.MovieGsonResponse;
+import com.example.ali.taskmswithrxjava.adapter.MovieRecycleAdapter;
+import com.example.ali.taskmswithrxjava.model.MovieResult;
+import com.example.ali.taskmswithrxjava.MovieService;
+import com.example.ali.taskmswithrxjava.R;
+import com.example.ali.taskmswithrxjava.controller.activity.DetailActivity;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -57,8 +65,7 @@ public class MainFragment extends Fragment implements MovieRecycleAdapter.OnClic
                 .subscribe(movieData -> {
                     movieRecycleAdapter = new MovieRecycleAdapter(getContext(),movieData.getResults(),this);
                     recyclerView.setAdapter(movieRecycleAdapter);
-                    Log.v("Movie Data","Data title:"+ movieData.getResults().get(0).getTitle()
-                    );
+
                 });
 
     }
@@ -66,15 +73,18 @@ public class MainFragment extends Fragment implements MovieRecycleAdapter.OnClic
     @Override
     public void onClick(MovieResult movieResult) {
         Log.v("Test","id : "+movieResult.getTitle());
-        DetailFragment detailFragment = new DetailFragment();
-        Bundle args = new Bundle();
-        args.putParcelable("Movie",movieResult);
-        detailFragment.setArguments(args);
-        ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction()
-//                        .detach(MainFragment.this)
-//                        .hide(MainFragment.this)
-//                        .remove(MainFragment.this)
-                .replace(R.id.fragment,detailFragment)
-                .commit();
+        Intent intent = new Intent(getActivity(),DetailActivity.class);
+        intent.putExtra("Movie",movieResult);
+        startActivity(intent);
+//        DetailFragment detailFragment = new DetailFragment();
+//        Bundle args = new Bundle();
+//        args.putParcelable("Movie",movieResult);
+//        detailFragment.setArguments(args);
+//        ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction()
+////                        .detach(MainFragment.this)
+////                        .hide(MainFragment.this)
+////                        .remove(MainFragment.this)
+//                .replace(R.id.fragment,detailFragment)
+//                .commit();
     }
 }

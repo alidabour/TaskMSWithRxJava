@@ -1,4 +1,4 @@
-package com.example.ali.taskmswithrxjava;
+package com.example.ali.taskmswithrxjava.adapter;
 
 /**
  * Created by Ali on 2/10/2017.
@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.ali.taskmswithrxjava.R;
+import com.example.ali.taskmswithrxjava.model.MovieResult;
+
 import java.util.List;
 
 
