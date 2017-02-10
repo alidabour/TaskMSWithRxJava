@@ -1,0 +1,15 @@
+package com.example.ali.taskmswithrxjava;
+
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+import rx.Observable;
+
+/**
+ * Created by Ali on 2/10/2017.
+ */
+
+public interface ReviewService {
+    @GET("{id}/reviews?")
+    Observable<ReviewGsonResponse> getReviewData(@Path("id")String id, @Query("api_key")String api);
+}
