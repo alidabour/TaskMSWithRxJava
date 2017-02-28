@@ -2,8 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ali.test.controller.fragment.MainFragment">
+    android:fitsSystemWindows="true">
     <android.support.v7.widget.RecyclerView
+        android:fitsSystemWindows="true"
+        android:layout_marginTop="16dp"
     android:id="@+id/mainRecycleView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>

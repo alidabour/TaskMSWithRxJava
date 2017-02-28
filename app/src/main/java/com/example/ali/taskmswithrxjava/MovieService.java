@@ -3,6 +3,7 @@ package com.example.ali.taskmswithrxjava;
 import com.example.ali.taskmswithrxjava.model.MovieGsonResponse;
 
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -11,7 +12,7 @@ import rx.Observable;
  */
 
 public interface MovieService {
-    @GET("movie?")
-    Observable<MovieGsonResponse> getMovieData(@Query("sort_by")String sortType,
+    @GET("movie/{type}")
+    Observable<MovieGsonResponse> getMovieData(@Path("type")String sortType,
                                                @Query("api_key")String api);
 }

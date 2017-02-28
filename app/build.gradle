@@ -20,7 +20,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-}
+    buildTypes.each {
+        it.buildConfigField 'String', 'API_KEY', '"Replace with your api key"'
+    }}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

@@ -16,6 +16,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".controller.activity.DetailActivity"/>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/action_settings"
+            android:parentActivityName=".controller.activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".controller.activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

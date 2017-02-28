@@ -13,6 +13,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.ali.taskmswithrxjava.BuildConfig;
 import com.example.ali.taskmswithrxjava.model.MovieResult;
 import com.example.ali.taskmswithrxjava.R;
 import com.example.ali.taskmswithrxjava.model.ReviewGsonResponse;
@@ -49,6 +50,8 @@ public class DetailFragment extends Fragment {
     TextView overview;
     @BindView(R.id.review)
     TextView review;
+    @BindView(R.id.rating)
+    TextView rating;
 
     String id;
     String text = " ";
@@ -73,6 +76,7 @@ public class DetailFragment extends Fragment {
             Glide.with(getContext()).load("http://image.tmdb.org/t/p/w500"+movie.getBackdropPath()).into(collapsingImage);
             releaseData.setText(movie.getReleaseDate());
             overview.setText(movie.getOverview());
+            rating.setText(movie.getVoteAverage().toString());
         }
 
         return view;
@@ -81,13 +85,13 @@ public class DetailFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-                Retrofit retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("http://api.themoviedb.org/3/movie/")
                 .build();
         ReviewService reviewService = retrofit.create(ReviewService.class);
-        Observable<ReviewGsonResponse> movieData1 = reviewService.getReviewData(id,"144eefdfe75e0f8cb5d9f9b68d178670");
+        Observable<ReviewGsonResponse> movieData1 = reviewService.getReviewData(id, BuildConfig.API_KEY);
 
         movieData1.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -108,7 +112,7 @@ public class DetailFragment extends Fragment {
                 .baseUrl("http://api.themoviedb.org/3/movie/")
                 .build();
         VideoService videoService = retrofit.create(VideoService.class);
-        Observable<VideoGsonResponse> movieData11 = videoService.getVideoData(id,"144eefdfe75e0f8cb5d9f9b68d178670");
+        Observable<VideoGsonResponse> movieData11 = videoService.getVideoData(id,BuildConfig.API_KEY);
 
         movieData1.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

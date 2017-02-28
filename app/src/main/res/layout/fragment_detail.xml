@@ -91,7 +91,6 @@
                         android:id="@+id/rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/average_rating_6_7"
                         android:textSize="12sp" />
                 </LinearLayout>
 
