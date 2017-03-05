@@ -4,4 +4,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="defaultPadding">16dp</dimen>
     <dimen name="imageHeight">210dp</dimen>
+    <dimen name="blackLineDim">2dp</dimen>
 </resources>

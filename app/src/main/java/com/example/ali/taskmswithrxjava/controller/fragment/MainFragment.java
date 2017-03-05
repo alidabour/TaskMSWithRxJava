@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.ali.taskmswithrxjava.BuildConfig;
 import com.example.ali.taskmswithrxjava.model.MovieGsonResponse;
@@ -20,6 +21,8 @@ import com.example.ali.taskmswithrxjava.model.MovieResult;
 import com.example.ali.taskmswithrxjava.MovieService;
 import com.example.ali.taskmswithrxjava.R;
 import com.example.ali.taskmswithrxjava.controller.activity.DetailActivity;
+
+import java.security.GuardedObject;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -34,6 +37,7 @@ public class MainFragment extends Fragment implements MovieRecycleAdapter.OnClic
 
     MovieRecycleAdapter movieRecycleAdapter;
     RecyclerView recyclerView;
+    TextView error;
     public MainFragment() {
         // Required empty public constructor
     }
@@ -47,6 +51,8 @@ public class MainFragment extends Fragment implements MovieRecycleAdapter.OnClic
         recyclerView = (RecyclerView) view.findViewById(R.id.mainRecycleView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        error = (TextView)view.findViewById(R.id.error);
+
         return view;
     }
 
@@ -73,14 +79,22 @@ public class MainFragment extends Fragment implements MovieRecycleAdapter.OnClic
                 .build();
         MovieService movieService = retrofit.create(MovieService.class);
         Observable<MovieGsonResponse> movieData1 = movieService.getMovieData(sort_by, BuildConfig.API_KEY);
+            movieData1.subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(movieData -> {
+                        movieRecycleAdapter = new MovieRecycleAdapter(getContext(),
+                                movieData.getResults(), this);
+                        recyclerView.setAdapter(movieRecycleAdapter);
+                        error.setVisibility(View.GONE);
 
-        movieData1.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(movieData -> {
-                    movieRecycleAdapter = new MovieRecycleAdapter(getContext(),movieData.getResults(),this);
-                    recyclerView.setAdapter(movieRecycleAdapter);
+                    }, throwable -> {
+                        throwable.printStackTrace();
+                        error.setVisibility(View.VISIBLE);
 
-                });
+                    });
+
+
+
 
     }
 

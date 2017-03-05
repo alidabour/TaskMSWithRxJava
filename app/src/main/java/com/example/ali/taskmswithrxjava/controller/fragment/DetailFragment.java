@@ -17,7 +17,6 @@ import com.example.ali.taskmswithrxjava.BuildConfig;
 import com.example.ali.taskmswithrxjava.model.MovieResult;
 import com.example.ali.taskmswithrxjava.R;
 import com.example.ali.taskmswithrxjava.model.ReviewGsonResponse;
-import com.example.ali.taskmswithrxjava.model.ReviewResult;
 import com.example.ali.taskmswithrxjava.ReviewService;
 import com.example.ali.taskmswithrxjava.model.VideoGsonResponse;
 import com.example.ali.taskmswithrxjava.VideoService;
@@ -56,6 +55,7 @@ public class DetailFragment extends Fragment {
     String id;
     String text = " ";
 
+
     public DetailFragment() {
         // Required empty public constructor
     }
@@ -67,7 +67,7 @@ public class DetailFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this,view);
         Intent intent = getActivity().getIntent();
-        if (intent != null) {
+        if (intent.hasExtra("Movie")) {
             MovieResult movie =intent.getParcelableExtra("Movie");
             id = String.valueOf(movie.getId());
             collapsingToolbarLayout.setTitle(movie.getTitle());
@@ -93,34 +93,35 @@ public class DetailFragment extends Fragment {
         ReviewService reviewService = retrofit.create(ReviewService.class);
         Observable<ReviewGsonResponse> movieData1 = reviewService.getReviewData(id, BuildConfig.API_KEY);
 
-        movieData1.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(movieData -> {
-                    for (ReviewResult x:movieData.getResults() ){
-                        if(x.getAuthor()!=null){
-                            text+=  "Author : "+x.getAuthor()+"\n";
-                            text+= "Content :"+x.getContent()+"\n";
-                        }
-                    }
-                    review.setText(text);
-                    Log.v("Movie Data","Data title:"+ movieData.getResults().get(0).getAuthor()
-                    );
-                });
+
         Retrofit retrofitt = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("http://api.themoviedb.org/3/movie/")
                 .build();
-        VideoService videoService = retrofit.create(VideoService.class);
+        VideoService videoService = retrofitt.create(VideoService.class);
         Observable<VideoGsonResponse> movieData11 = videoService.getVideoData(id,BuildConfig.API_KEY);
 
-        movieData1.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(movieData -> {
-                    Log.v("Movie Data","Data title:"+ movieData.getResults().get(0).getAuthor()
-                    );
-                });
+
+            movieData1.subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(movieData -> {
+                        movieData.getResults().stream().filter(x -> x.getAuthor() != null)
+                                .forEach(x -> {
+                                    text += "Author : " + x.getAuthor() + "\n";
+                                    text += "Content :" + x.getContent() + "\n";
+                                });
+                        review.setText(text);
+                    },throwable -> {throwable.printStackTrace();});
+
+            movieData11.subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(movieData -> {
+                        Log.v("Movie Data","Data title:"+ movieData.getResults().get(0).getId()
+                        );
+                    },throwable -> {throwable.printStackTrace();});
+        }
     }
 
 
-}
+

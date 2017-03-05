@@ -91,14 +91,14 @@
                         android:id="@+id/rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp" />
+                        />
                 </LinearLayout>
 
             </LinearLayout>
             <View
                 android:background="@android:color/black"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"/>
+                android:layout_height="@dimen/blackLineDim"/>
             <TextView
                 android:textAppearance="@android:style/TextAppearance.Material.Body1"
                 android:padding="@dimen/defaultPadding"
@@ -108,7 +108,7 @@
             <View
                 android:background="@android:color/black"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"/>
+                android:layout_height="@dimen/blackLineDim"/>
             <TextView
                 android:textAppearance="@android:style/TextAppearance.Material.Body1"
                 android:padding="@dimen/defaultPadding"
